@@ -156,10 +156,10 @@ function DoneScreen({navigation}) {
 }
 
 function CreateScreen({route, navigation}) {
-  const {titleP, descP, type} = route.params;
-  console.log(route.type);
-  const [title, onChangeTitle] = React.useState(titleP);
-  const [desc, onChangeDesc] = React.useState(descP);
+  const {title, desc, type} = route.params;
+  console.log(title);
+  const [titleC, onChangeTitle] = React.useState(title);
+  const [descC, onChangeDesc] = React.useState(desc);
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -198,6 +198,7 @@ function CreateScreen({route, navigation}) {
 
 function TaskDetailsScreen({route, navigation}) {
   const {title, desc, type} = route.params;
+  
   return (
     <SafeAreaView style={styles.container}>
       <View>
