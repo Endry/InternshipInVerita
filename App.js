@@ -4,51 +4,47 @@ import React from 'react';
 import type {Node} from 'react';
 
 import {
-  Alert,
   SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
   TextInput,
   TouchableHighlight,
   Dimensions,
   Image,
-  Button,
   FlatList,
 } from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 
 var todoTasks = [
-  {key: 'Devin', desc: 'Devin description'},
-  {key: 'Dan', desc: 'Dan description'},
-  {key: 'Dominic', desc: 'Dominic description'},
-  {key: 'Jackson', desc: 'Jackson description'},
-  {key: 'James', desc: 'James description'},
-  {key: 'Joel', desc: 'Joel description'},
-  {key: 'John', desc: 'John description'},
-  {key: 'Jillian', desc: 'Jillian description'},
-  {key: 'Jimmy', desc: 'Jimmy description'},
-  {key: 'Julie', desc: 'Julie description'},
+  {title: 'Devin', desc: 'Devin description', id: 1},
+  {title: 'Dan', desc: 'Dan description', id: 2},
+  {title: 'Dominic', desc: 'Dominic description', id: 3},
+  {title: 'Jackson', desc: 'Jackson description', id: 4},
+  {title: 'James', desc: 'James description', id: 5},
+  {title: 'Joel', desc: 'Joel description', id: 6},
+  {title: 'John', desc: 'John description', id: 7},
+  {title: 'Jillian', desc: 'Jillian description', id: 8},
+  {title: 'Jimmy', desc: 'Jimmy description', id: 9},
+  {title: 'Julie', desc: 'Julie description', id: 10},
 ];
 
 var doneTasks = [
-  {key: 'Devin', desc: 'Devin description'},
-  {key: 'Dan', desc: 'Dan description'},
-  {key: 'Dominic', desc: 'Dominic description'},
-  {key: 'Jackson', desc: 'Jackson description'},
-  {key: 'James', desc: 'James description'},
-  {key: 'Joel', desc: 'Joel description'},
-  {key: 'John', desc: 'John description'},
-  {key: 'Jillian', desc: 'Jillian description'},
-  {key: 'Jimmy', desc: 'Jimmy description'},
-  {key: 'Julie', desc: 'Julie description'},
+  {title: 'Devin', desc: 'Devin description', id: 1},
+  {title: 'Dan', desc: 'Dan description', id: 2},
+  {title: 'Dominic', desc: 'Dominic description', id: 3},
+  {title: 'Jackson', desc: 'Jackson description', id: 4},
+  {title: 'James', desc: 'James description', id: 5},
+  {title: 'Joel', desc: 'Joel description', id: 6},
+  {title: 'John', desc: 'John description', id: 7},
+  {title: 'Jillian', desc: 'Jillian description', id: 8},
+  {title: 'Jimmy', desc: 'Jimmy description', id: 9},
+  {title: 'Julie', desc: 'Julie description', id: 10},
 ];
+var idTodo = 10;
+var idDone = 10;
 
 const Section = ({children, title}): Node => {
   return (
@@ -70,12 +66,13 @@ function TodoScreen({navigation}) {
               underlayColor="#fff"
               onPress={() =>
                 navigation.navigate('Details', {
-                  title: item.key,
+                  title: item.title,
                   desc: item.desc,
                   type: 'todo',
+                  id: item.id,
                 })
               }>
-              <Section title={item.key}>
+              <Section title={item.title}>
                 <Text style={styles.highlight}> {item.desc} </Text>
               </Section>
             </TouchableHighlight>
@@ -87,13 +84,13 @@ function TodoScreen({navigation}) {
         <TouchableHighlight
           underlayColor="#4d9000"
           style={styles.tab}
-          onPress={() => navigation.navigate('TODO')}>
+          onPress={() => navigation.push('TODO')}>
           <Text style={styles.tabText}>TODO</Text>
         </TouchableHighlight>
         <TouchableHighlight
           underlayColor="#4d9000"
           style={styles.tab}
-          onPress={() => navigation.navigate('DONE')}>
+          onPress={() => navigation.push('DONE')}>
           <Text style={styles.tabText}>DONE</Text>
         </TouchableHighlight>
         <TouchableHighlight
@@ -118,12 +115,13 @@ function DoneScreen({navigation}) {
               underlayColor="#fff"
               onPress={() =>
                 navigation.navigate('Details', {
-                  title: item.key,
+                  title: item.title,
                   desc: item.desc,
                   type: 'done',
+                  id: item.id,
                 })
               }>
-              <Section title={item.key}>
+              <Section title={item.title}>
                 <Text style={styles.highlight}> {item.desc} </Text>
               </Section>
             </TouchableHighlight>
@@ -135,13 +133,13 @@ function DoneScreen({navigation}) {
         <TouchableHighlight
           underlayColor="#4d9000"
           style={styles.tab}
-          onPress={() => navigation.navigate('TODO')}>
+          onPress={() => navigation.push('TODO')}>
           <Text style={styles.tabText}>TODO</Text>
         </TouchableHighlight>
         <TouchableHighlight
           underlayColor="#4d9000"
           style={styles.tab}
-          onPress={() => navigation.navigate('DONE')}>
+          onPress={() => navigation.push('DONE')}>
           <Text style={styles.tabText}>DONE</Text>
         </TouchableHighlight>
         <TouchableHighlight
@@ -156,23 +154,22 @@ function DoneScreen({navigation}) {
 }
 
 function CreateScreen({route, navigation}) {
-  const {title, desc, type} = route.params;
-  console.log(title);
-  const [titleC, onChangeTitle] = React.useState(title);
-  const [descC, onChangeDesc] = React.useState(desc);
+  const {titleP, descP, type, id} = route.params;
+  const [title, setTitle] = React.useState(titleP);
+  const [desc, setDesc] = React.useState(descP);
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <TextInput
           style={styles.inputTitle}
           placeholder="Enter title"
-          onChangeText={title => onChangeTitle(title)}
+          onChangeText={title => setTitle(title)}
           defaultValue={title}
         />
         <TextInput
           placeholder="Enter description"
           style={styles.inputDesc}
-          onChangeText={desc => onChangeDesc(desc)}
+          onChangeText={desc => setDesc(desc)}
           defaultValue={desc}
         />
       </View>
@@ -180,7 +177,16 @@ function CreateScreen({route, navigation}) {
         <TouchableHighlight
           underlayColor="#4d9000"
           style={styles.tab}
-          onPress={() => addTask(type, title, desc)}>
+          onPress={() => {
+            if (
+              (titleP !== null && titleP !== title) ||
+              (descP !== null && descP !== desc)
+            ) {
+              editTask(id, type, title, desc);
+            } else {
+              addTask(type, title, desc);
+            }
+          }}>
           <Text style={styles.tabText}>Save</Text>
         </TouchableHighlight>
         <TouchableHighlight
@@ -197,8 +203,7 @@ function CreateScreen({route, navigation}) {
 }
 
 function TaskDetailsScreen({route, navigation}) {
-  const {title, desc, type} = route.params;
-  
+  const {title, desc, type, id} = route.params;
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -212,9 +217,10 @@ function TaskDetailsScreen({route, navigation}) {
           style={styles.tab}
           onPress={() =>
             navigation.navigate('Create', {
-              title: title,
-              desc: desc,
+              titleP: title,
+              descP: desc,
               type: type,
+              id: id,
             })
           }>
           <Text style={styles.tabText}>EDIT</Text>
@@ -223,7 +229,7 @@ function TaskDetailsScreen({route, navigation}) {
           underlayColor="#4d9000"
           style={styles.tab}
           onPress={() => {
-            changeType(type, title, desc);
+            changeType(type, title, desc, id);
             navigation.navigate(type === 'done' ? 'TODO' : 'DONE');
           }}>
           <Text style={styles.tabText}>
@@ -232,7 +238,7 @@ function TaskDetailsScreen({route, navigation}) {
         </TouchableHighlight>
         <TouchableHighlight
           underlayColor="#fff"
-          onPress={() => removeTask(title, type)}
+          onPress={() => removeTask(id, type)}
           style={styles.addContainer}>
           <Image style={styles.del} source={require('./images/delete.png')} />
         </TouchableHighlight>
@@ -241,34 +247,42 @@ function TaskDetailsScreen({route, navigation}) {
   );
 }
 
-function changeType(type, title, desc) {
-  removeTask(title, type);
-  if (type === 'todo') {
-    doneTasks.push({key: title, desc: desc});
+function changeType(type, title, desc, id) {
+  removeTask(id, type);
+  console.log(type);
+  if (type === 'done') {
+    todoTasks.push({title: title, desc: desc, id: ++idTodo});
   } else {
-    todoTasks.push({key: title, desc: desc});
+    doneTasks.push({title: title, desc: desc, idDone: ++idDone});
   }
 }
 
-function removeTask(title, type) {
+function editTask(id, type, title, desc) {
+  let item = {title: title, desc: desc, type: type, id: id};
+  let foundIndex;
   if (type === 'todo') {
-    todoTasks.splice(
-      todoTasks.indexOf(todoTasks.find(t => t.key === title)),
-      1,
-    );
+    foundIndex = todoTasks.indexOf(todoTasks.find(t => t.id === id));
+    todoTasks[foundIndex] = item;
   } else {
-    doneTasks.splice(
-      doneTasks.indexOf(doneTasks.find(t => t.key === title)),
-      1,
-    );
+    foundIndex = doneTasks.find(t => t.id === id);
+    doneTasks[foundIndex] = item;
+  }
+}
+
+function removeTask(id, type) {
+  console.log(doneTasks.indexOf(doneTasks.find(t => t.id === id)));
+  if (type === 'todo') {
+    todoTasks.splice(todoTasks.indexOf(todoTasks.find(t => t.id === id)), 1);
+  } else {
+    doneTasks.splice(doneTasks.indexOf(doneTasks.find(t => t.id === id)), 1);
   }
 }
 
 function addTask(type, title, desc) {
   if (type === 'todo') {
-    todoTasks.push({key: title, desc: desc});
+    todoTasks.push({title: title, desc: desc, id: ++idTodo});
   } else {
-    doneTasks.push({key: title, desc: desc});
+    doneTasks.push({title: title, desc: desc, id: ++idDone});
   }
 }
 
