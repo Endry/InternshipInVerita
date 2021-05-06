@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import styles from './style/style';
 import type {Node} from 'react';
+import {configureStore} from '@reduxjs/toolkit';
 
 var todoTasks = [
   {title: 'Devin', desc: 'Devin description', id: 1},
@@ -28,9 +29,43 @@ var doneTasks = [
   {title: 'Julie', desc: 'Julie description', id: 10},
 ];
 
-var idTodo = 10;
-var idDone = 10;
+const incrementIdTodoAction = {
+  type: 'counterTodo/increment',
+};
+const incrementIdDoneAction = {
+  type: 'counterDone/increment',
+};
 
+const InitialIdTodo = {value: 10};
+const InitialIdDone = {value: 10};
+
+function counterTodoReducer(state = InitialIdTodo, action) {
+  if (action.type === 'counterTodo/increment') {
+    return {
+      ...state,
+      value: state.value + 1,
+    };
+  }
+
+  return state;
+}
+function counterDoneReducer(state = InitialIdDone, action) {
+  if (action.type === 'counterDone/increment') {
+    return {
+      ...state,
+      value: state.value + 1,
+    };
+  }
+
+  return state;
+}
+
+const storeIdTodo = configureStore({reducer: counterTodoReducer});
+const storeIdDone = configureStore({reducer: counterDoneReducer});
+//for example how to use redux
+storeIdTodo.dispatch(incrementIdTodoAction);
+console.console.log(storeIdTodo.getState());
+//end example
 function changeType(type, title, desc, id) {
   removeTask(id, type);
   if (type === 'done') {
