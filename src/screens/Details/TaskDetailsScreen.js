@@ -1,4 +1,4 @@
-import {changeType, removeTask} from './TasksStorage';
+import {changeType, removeTask} from './../TasksStorage';
 import React from 'react';
 
 import {
@@ -8,7 +8,9 @@ import {
   TouchableHighlight,
   Image,
 } from 'react-native';
-import styles from './style/style';
+import styles from './../../assets/style/style';
+import {removeTodoAction} from './../features/actions/actions';
+import store from './../store';
 
 function TaskDetailsScreen({route, navigation}) {
   const {title, desc, type, id} = route.params;
@@ -46,9 +48,14 @@ function TaskDetailsScreen({route, navigation}) {
         </TouchableHighlight>
         <TouchableHighlight
           underlayColor="#fff"
-          onPress={() => removeTask(id, type)}
-          style={styles.addContainer}>
-          <Image style={styles.del} source={require('./images/delete.png')} />
+          onPress={() =>
+            type === 'todo' ? store.dispatch(removeTodoAction(id)) : {}
+          }
+          style={styles.delContainer}>
+          <Image
+            style={styles.del}
+            source={require('./../../assets/images/delete.png')}
+          />
         </TouchableHighlight>
       </View>
     </SafeAreaView>

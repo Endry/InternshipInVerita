@@ -1,8 +1,9 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import styles from './style/style';
+import styles from './../assets/style/style';
 import type {Node} from 'react';
 import {configureStore} from '@reduxjs/toolkit';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 var todoTasks = [
   {title: 'Devin', desc: 'Devin description', id: 1},
@@ -35,6 +36,12 @@ const incrementIdTodoAction = {
 const incrementIdDoneAction = {
   type: 'counterDone/increment',
 };
+const decrementIdTodoAction = {
+  type: 'counterTodo/decrement',
+};
+const decrementIdDoneAction = {
+  type: 'counterDone/decrement',
+};
 
 const InitialIdTodo = {value: 10};
 const InitialIdDone = {value: 10};
@@ -44,6 +51,12 @@ function counterTodoReducer(state = InitialIdTodo, action) {
     return {
       ...state,
       value: state.value + 1,
+    };
+  }
+  if (action.type === 'counterTodo/decrement') {
+    return {
+      ...state,
+      value: state.value - 1,
     };
   }
 
@@ -56,22 +69,29 @@ function counterDoneReducer(state = InitialIdDone, action) {
       value: state.value + 1,
     };
   }
+  if (action.type === 'counterDone/decrement') {
+    return {
+      ...state,
+      value: state.value - 1,
+    };
+  }
 
   return state;
 }
 
 const storeIdTodo = configureStore({reducer: counterTodoReducer});
 const storeIdDone = configureStore({reducer: counterDoneReducer});
-//for example how to use redux
-storeIdTodo.dispatch(incrementIdTodoAction);
-console.console.log(storeIdTodo.getState());
-//end example
+
 function changeType(type, title, desc, id) {
   removeTask(id, type);
   if (type === 'done') {
-    todoTasks.push({title: title, desc: desc, id: ++idTodo});
+    storeIdTodo.dispatch(incrementIdTodoAction);
+    storeIdDone.dispatch(decrementIdDoneAction);
+    todoTasks.push({title: title, desc: desc, id: storeIdTodo.getState()});
   } else {
-    doneTasks.push({title: title, desc: desc, idDone: ++idTodo});
+    storeIdDone.dispatch(incrementIdTodoAction);
+    storeIdTodo.dispatch(decrementIdDoneAction);
+    doneTasks.push({title: title, desc: desc, idDone: storeIdDone.getState()});
   }
 }
 
@@ -97,9 +117,11 @@ function removeTask(id, type) {
 
 function addTask(type, title, desc) {
   if (type === 'todo') {
-    todoTasks.push({title: title, desc: desc, id: ++idTodo});
+    storeIdTodo.dispatch(incrementIdTodoAction);
+    todoTasks.push({title: title, desc: desc, id: storeIdTodo.getState()});
   } else {
-    doneTasks.push({title: title, desc: desc, id: ++idTodo});
+    storeIdTodo.dispatch(incrementIdTodoAction);
+    doneTasks.push({title: title, desc: desc, idDone: storeIdDone.getState()});
   }
 }
 
@@ -112,10 +134,12 @@ const Section = ({children, title}): Node => {
   );
 };
 
-export {Section};
-export {changeType};
-export {editTask};
-export {removeTask};
-export {addTask};
-export {doneTasks};
-export {todoTasks};
+export {
+  Section,
+  changeType,
+  editTask,
+  removeTask,
+  addTask,
+  doneTasks,
+  todoTasks,
+};

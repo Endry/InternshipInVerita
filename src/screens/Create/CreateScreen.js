@@ -1,5 +1,4 @@
 import React from 'react';
-import type {Node} from 'react';
 
 import {
   SafeAreaView,
@@ -8,8 +7,15 @@ import {
   TextInput,
   TouchableHighlight,
 } from 'react-native';
-import {addTask, editTask} from './TasksStorage';
-import styles from './style/style';
+import {addTask, editTask} from './../TasksStorage';
+import styles from './../../assets/style/style';
+import store from './../store';
+import {
+  addTodoAction,
+  editTodoAction,
+  addDoneAction,
+  editDoneAction,
+} from './../features/actions/actions';
 
 function CreateScreen({route, navigation}) {
   const {titleP, descP, type, id} = route.params;
@@ -36,13 +42,23 @@ function CreateScreen({route, navigation}) {
           underlayColor="#4d9000"
           style={styles.tab}
           onPress={() => {
+            console.log('in press');
             if (
               (titleP !== undefined && titleP !== title) ||
               (descP !== undefined && descP !== desc)
             ) {
-              editTask(id, type, title, desc);
-            } else {
-              addTask(type, title, desc);
+              console.log('in if');
+              type === 'todo'
+                ? store.dispatch(editTodoAction(id, title, desc))
+                : store.dispatch(editDoneAction(id, title, desc));
+            } else if (
+              (titleP === undefined && titleP !== title) ||
+              (descP === undefined && descP !== desc)
+            ) {
+              console.log('in else');
+              type === 'todo'
+                ? store.dispatch(addTodoAction(title, desc))
+                : store.dispatch(addDoneAction(title, desc));
             }
           }}>
           <Text style={styles.tabText}>Save</Text>

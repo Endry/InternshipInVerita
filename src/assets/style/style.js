@@ -1,15 +1,6 @@
-import React from 'react';
-import type {Node} from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableHighlight,
   Dimensions,
-  Image,
-  FlatList,
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -28,7 +19,18 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: 'green',
     borderRadius: 30,
-    bottom: 55,
+    bottom: 20,
+    right: 10,
+  },
+  delContainer: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    height: 60,
+    backgroundColor: 'green',
+    borderRadius: 30,
+    bottom: 70,
     right: 10,
   },
   add: {

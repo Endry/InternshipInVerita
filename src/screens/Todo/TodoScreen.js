@@ -17,16 +17,17 @@ import {
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {doneTasks, Section} from './TasksStorage';
+import {todoTasks, Section} from './../TasksStorage';
+import store from './../store';
+import styles from './../../assets/style/style';
+;
 
-const styles = require('./style/style');
-
-function DoneScreen({navigation}) {
+function TodoScreen({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <FlatList
-          data={doneTasks}
+          data={store.getState().todos}
           renderItem={({item}) => (
             <TouchableHighlight
               underlayColor="#fff"
@@ -34,7 +35,7 @@ function DoneScreen({navigation}) {
                 navigation.navigate('Details', {
                   title: item.title,
                   desc: item.desc,
-                  type: 'done',
+                  type: 'todo',
                   id: item.id,
                 })
               }>
@@ -44,24 +45,12 @@ function DoneScreen({navigation}) {
             </TouchableHighlight>
           )}
         />
-        <View style={{height: 50}} />
       </View>
       <View style={styles.bottomNav}>
-        <TouchableHighlight
-          underlayColor="#4d9000"
-          style={styles.tab}
-          onPress={() => navigation.push('TODO')}>
-          <Text style={styles.tabText}>TODO</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          underlayColor="#4d9000"
-          style={styles.tab}
-          onPress={() => navigation.push('DONE')}>
-          <Text style={styles.tabText}>DONE</Text>
-        </TouchableHighlight>
+
         <TouchableHighlight
           underlayColor="#fff"
-          onPress={() => navigation.navigate('Create', {type: 'done'})}
+          onPress={() => navigation.navigate('Create', {type: 'todo'})}
           style={styles.addContainer}>
           <Text style={styles.add}>+</Text>
         </TouchableHighlight>
@@ -70,4 +59,4 @@ function DoneScreen({navigation}) {
   );
 }
 
-export default DoneScreen;
+export default TodoScreen;
