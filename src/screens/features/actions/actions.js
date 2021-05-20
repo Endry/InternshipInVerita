@@ -21,7 +21,14 @@ const removeTaskAction = id => {
 
 const editTaskAction = (id, title, desc, type) => {
   return {
-    type: 'todos/edit',
+    type: 'tasks/edit',
+    payload: {id: id, title: title, desc: desc, type: type},
+  };
+};
+
+const changeTaskTypeAction = (type, title, desc, id) => {
+  return {
+    type: 'tasks/changeType',
     payload: {id: id, title: title, desc: desc, type: type},
   };
 };
@@ -32,4 +39,5 @@ export {
   incrementIdAction,
   decrementIdAction,
   editTaskAction,
+  changeTaskTypeAction,
 };

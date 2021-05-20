@@ -9,11 +9,15 @@ import {
   Image,
 } from 'react-native';
 import styles from './../../assets/style/style';
-import {removeTaskAction} from './../features/actions/actions';
-import store from './../store';
+import {
+  removeTaskAction,
+  changeTaskTypeAction,
+} from './../features/actions/actions';
+import {useDispatch} from 'react-redux';
 
 function TaskDetailsScreen({route, navigation}) {
   const {title, desc, type, id} = route.params;
+  const dispatch = useDispatch();
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -39,7 +43,7 @@ function TaskDetailsScreen({route, navigation}) {
           underlayColor="#4d9000"
           style={styles.tab}
           onPress={() => {
-            changeType(type, title, desc, id);
+            dispatch(changeTaskTypeAction(type, title, desc, id));
             navigation.navigate(type === 'done' ? 'TODO' : 'DONE');
           }}>
           <Text style={styles.tabText}>

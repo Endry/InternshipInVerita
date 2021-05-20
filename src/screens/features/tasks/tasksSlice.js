@@ -27,6 +27,19 @@ const initialState = [
 
 function editTask(id, title, desc, type, tasks) {
   let item = {title: title, desc: desc, id: id, type: type};
+  console.log(item);
+  tasks = removeTask(id, tasks);
+
+  return [...tasks, item];
+}
+
+function changeTaskType(id, title, desc, type, tasks) {
+  let item = {
+    title: title,
+    desc: desc,
+    id: id,
+    type: type === 'todo' ? 'done' : 'todo',
+  };
   tasks = removeTask(id, tasks);
 
   return [...tasks, item];
@@ -62,14 +75,22 @@ export default function tasksReducer(state = initialState, action) {
       return removeTask(action.payload.id, state);
     }
     case 'tasks/edit': {
-      state = editTask(
+      return editTask(
         action.payload.id,
         action.payload.title,
         action.payload.desc,
         action.payload.type,
         state,
       );
-      return state;
+    }
+    case 'tasks/changeType': {
+      return changeTaskType(
+        action.payload.id,
+        action.payload.title,
+        action.payload.desc,
+        action.payload.type,
+        state,
+      );
     }
     default:
       return state;

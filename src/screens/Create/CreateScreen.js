@@ -7,15 +7,17 @@ import {
   TextInput,
   TouchableHighlight,
 } from 'react-native';
-import {addTask, editTask} from './../TasksStorage';
 import styles from './../../assets/style/style';
-import store from './../store';
 import {addTaskAction, editTaskAction} from './../features/actions/actions';
+import {useDispatch} from 'react-redux';
 
 function CreateScreen({route, navigation}) {
   const {titleP, descP, type, id} = route.params;
   const [title, setTitle] = React.useState(titleP);
   const [desc, setDesc] = React.useState(descP);
+
+  const dispatch = useDispatch();
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -37,19 +39,16 @@ function CreateScreen({route, navigation}) {
           underlayColor="#4d9000"
           style={styles.tab}
           onPress={() => {
-            console.log('in press');
             if (
               (titleP !== undefined && titleP !== title) ||
               (descP !== undefined && descP !== desc)
             ) {
-              console.log('in if');
-              store.dispatch(editTaskAction(id, title, desc, type));
+              dispatch(editTaskAction(id, title, desc, type));
             } else if (
               (titleP === undefined && titleP !== title) ||
               (descP === undefined && descP !== desc)
             ) {
-              console.log('in else');
-              store.dispatch(addTaskAction(title, desc, type));
+              dispatch(addTaskAction(title, desc, type));
             }
           }}>
           <Text style={styles.tabText}>Save</Text>

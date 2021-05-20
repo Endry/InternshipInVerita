@@ -3,15 +3,10 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableHighlight,
-  Dimensions,
-  Image,
   FlatList,
-  Button,
 } from 'react-native';
 import {Section} from './../TasksStorage';
 import {useSelector} from 'react-redux';
