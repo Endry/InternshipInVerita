@@ -1,16 +1,15 @@
-import {configureStore} from '@reduxjs/toolkit';
+import {createStore} from 'redux';
 
-const InitialIdTodo = {value: 10};
-const InitialIdDone = {value: 10};
+const InitialId = {value: 20};
 
-function counterTodoReducer(state = InitialIdTodo, action) {
-  if (action.type === 'counterTodo/increment') {
+function counterReducer(state = InitialId, action) {
+  if (action.type === 'counter/increment') {
     return {
       ...state,
       value: state.value + 1,
     };
   }
-  if (action.type === 'counterTodo/decrement') {
+  if (action.type === 'counter/decrement') {
     return {
       ...state,
       value: state.value - 1,
@@ -19,24 +18,6 @@ function counterTodoReducer(state = InitialIdTodo, action) {
 
   return state;
 }
-function counterDoneReducer(state = InitialIdDone, action) {
-  if (action.type === 'counterDone/increment') {
-    return {
-      ...state,
-      value: state.value + 1,
-    };
-  }
-  if (action.type === 'counterDone/decrement') {
-    return {
-      ...state,
-      value: state.value - 1,
-    };
-  }
+const storeId = createStore(counterReducer);
 
-  return state;
-}
-
-const storeIdTodo = configureStore({reducer: counterTodoReducer});
-const storeIdDone = configureStore({reducer: counterDoneReducer});
-
-export {storeIdTodo, storeIdDone};
+export {storeId};

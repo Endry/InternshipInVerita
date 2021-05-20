@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native';
 import styles from './../../assets/style/style';
-import {removeTodoAction} from './../features/actions/actions';
+import {removeTaskAction} from './../features/actions/actions';
 import store from './../store';
 
 function TaskDetailsScreen({route, navigation}) {
@@ -48,9 +48,7 @@ function TaskDetailsScreen({route, navigation}) {
         </TouchableHighlight>
         <TouchableHighlight
           underlayColor="#fff"
-          onPress={() =>
-            type === 'todo' ? store.dispatch(removeTodoAction(id)) : {}
-          }
+          onPress={() => store.dispatch(removeTaskAction(id))}
           style={styles.delContainer}>
           <Image
             style={styles.del}

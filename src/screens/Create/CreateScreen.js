@@ -10,12 +10,7 @@ import {
 import {addTask, editTask} from './../TasksStorage';
 import styles from './../../assets/style/style';
 import store from './../store';
-import {
-  addTodoAction,
-  editTodoAction,
-  addDoneAction,
-  editDoneAction,
-} from './../features/actions/actions';
+import {addTaskAction, editTaskAction} from './../features/actions/actions';
 
 function CreateScreen({route, navigation}) {
   const {titleP, descP, type, id} = route.params;
@@ -48,17 +43,13 @@ function CreateScreen({route, navigation}) {
               (descP !== undefined && descP !== desc)
             ) {
               console.log('in if');
-              type === 'todo'
-                ? store.dispatch(editTodoAction(id, title, desc))
-                : store.dispatch(editDoneAction(id, title, desc));
+              store.dispatch(editTaskAction(id, title, desc, type));
             } else if (
               (titleP === undefined && titleP !== title) ||
               (descP === undefined && descP !== desc)
             ) {
               console.log('in else');
-              type === 'todo'
-                ? store.dispatch(addTodoAction(title, desc))
-                : store.dispatch(addDoneAction(title, desc));
+              store.dispatch(addTaskAction(title, desc, type));
             }
           }}>
           <Text style={styles.tabText}>Save</Text>

@@ -1,6 +1,6 @@
 import {createStore} from 'redux';
-import rootReducer from './rootReducer';
+import tasksReducer from './features/tasks/tasksSlice';
 
-const store = createStore(rootReducer);
+const store = createStore(tasksReducer);
 
 export default store;

@@ -1,63 +1,35 @@
-const incrementIdTodoAction = {
-  type: 'counterTodo/increment',
-};
-const incrementIdDoneAction = {
-  type: 'counterDone/increment',
-};
-const decrementIdTodoAction = {
-  type: 'counterTodo/decrement',
-};
-const decrementIdDoneAction = {
-  type: 'counterDone/decrement',
+const incrementIdAction = () => {
+  return {type: 'counter/increment'};
 };
 
-const addTodoAction = (title, desc) => {
+const decrementIdAction = () => {
+  return {type: 'counter/decrement'};
+};
+
+const addTaskAction = (title, desc, type) => {
   return {
-    type: 'todos/add',
-    payload: {title: title, desc: desc},
+    type: 'tasks/add',
+    payload: {title: title, desc: desc, type: type},
   };
 };
-const removeTodoAction = id => {
+const removeTaskAction = id => {
   return {
-    type: 'todos/remove',
+    type: 'tasks/remove',
     payload: {id: id},
   };
 };
 
-const editTodoAction = (id, title, desc) => {
+const editTaskAction = (id, title, desc, type) => {
   return {
     type: 'todos/edit',
-    payload: {id: id, title: title, desc: desc},
-  };
-};
-
-const addDoneAction = (title, desc) => {
-  return {
-    type: 'dones/add',
-    payload: {title: title, desc: desc},
-  };
-};
-const removeDoneAction = id => {
-  return {
-    type: 'dones/remove',
-    payload: {id: id},
-  };
-};
-
-const editDoneAction = (id, title, desc) => {
-  return {
-    type: 'dones/edit',
-    payload: {id: id, title: title, desc: desc},
+    payload: {id: id, title: title, desc: desc, type: type},
   };
 };
 
 export {
-  addTodoAction,
-  removeTodoAction,
-  incrementIdTodoAction,
-  editTodoAction,
-  addDoneAction,
-  removeDoneAction,
-  incrementIdDoneAction,
-  editDoneAction,
+  addTaskAction,
+  removeTaskAction,
+  incrementIdAction,
+  decrementIdAction,
+  editTaskAction,
 };

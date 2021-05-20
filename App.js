@@ -10,6 +10,8 @@ import CreateScreen from './src/screens/Create/CreateScreen';
 import TaskDetailsScreen from './src/screens/Details/TaskDetailsScreen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {Provider} from 'react-redux';
+import store from './src/screens/store';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -47,35 +49,37 @@ function Tasks() {
 
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Tasks">
-        <Stack.Screen
-          name="Tasks"
-          component={Tasks}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Details"
-          component={TaskDetailsScreen}
-          options={{
-            headerTintColor: 'white',
-            headerStyle: {
-              backgroundColor: 'green',
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Create"
-          component={CreateScreen}
-          options={{
-            headerTintColor: 'white',
-            headerStyle: {
-              backgroundColor: 'green',
-            },
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Tasks">
+          <Stack.Screen
+            name="Tasks"
+            component={Tasks}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Details"
+            component={TaskDetailsScreen}
+            options={{
+              headerTintColor: 'white',
+              headerStyle: {
+                backgroundColor: 'green',
+              },
+            }}
+          />
+          <Stack.Screen
+            name="Create"
+            component={CreateScreen}
+            options={{
+              headerTintColor: 'white',
+              headerStyle: {
+                backgroundColor: 'green',
+              },
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
