@@ -22,7 +22,7 @@ import {createSelector} from 'reselect';
 
 const selectTasksDone = createSelector(
   state => state,
-  state => state.tasks.filter(done => done.type === 'done'),
+  state => state.tasks.tasks.filter(done => done.type === 'done'),
 );
 
 function DoneScreen({navigation}) {

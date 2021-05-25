@@ -32,7 +32,9 @@ function editTask(id, title, desc, type, tasks) {
   console.log(item);
   tasks = removeTask(id, tasks);
 
-  return [...tasks, item];
+  return {
+    tasks: [...tasks, item],
+  };
 }
 
 function changeTaskType(id, title, desc, type, tasks) {
@@ -44,14 +46,15 @@ function changeTaskType(id, title, desc, type, tasks) {
   };
   tasks = removeTask(id, tasks);
 
-  return [...tasks, item];
+  return {tasks: [...tasks, item]};
 }
 
 function removeTask(id, tasks) {
+  console.log('tasks');
   console.log(tasks);
   tasks.splice(tasks.indexOf(tasks.find(t => t.id === id)), 1);
-  
-  return tasks;
+
+  return [...tasks];
 }
 
 function addTask(title, desc, type, tasks) {
@@ -80,7 +83,9 @@ export default function tasksReducer(state = initialState, action) {
     case 'tasks/remove': {
       console.log('remove');
       console.log(state);
-      return {tasks: removeTask(action.payload.id, state)};
+      return (state.tasks = {
+        tasks: removeTask(action.payload.id, state.tasks),
+      });
     }
     case 'tasks/edit': {
       return (state.tasks = editTask(
@@ -88,17 +93,17 @@ export default function tasksReducer(state = initialState, action) {
         action.payload.title,
         action.payload.desc,
         action.payload.type,
-        state,
+        state.tasks,
       ));
     }
     case 'tasks/changeType': {
-      return changeTaskType(
+      return (state.tasks = changeTaskType(
         action.payload.id,
         action.payload.title,
         action.payload.desc,
         action.payload.type,
-        state,
-      );
+        state.tasks,
+      ));
     }
     default:
       return state;

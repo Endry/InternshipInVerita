@@ -19,42 +19,20 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {createSelector} from 'reselect';
 
-const selectTasksTodo = createSelector(
+const selectTasks = createSelector(
   state => state,
   state => state,
 );
 
-const TasksTodo = createSelector(
-  state => state,
-  state =>
-    state.tasks.array.forEach(element => {
-      element.type === 'todo';
-    }),
-);
-
-const toArray = object => {
-  const array = [];
-  return [...array, object];
-};
-
-const transformData = todo => {
-  let array = [];
-  let task = todo["tasks"];
-  console.log("task");
-  console.log(task["0"]);
-  for (let prop in task) {
-    array.push(task[prop]);
-  }
-  console.log("array");
-  console.log(array);
-  return array;
+const selectTasksTodo = task => {
+  return task.filter(done => done.type === 'todo');
 };
 
 function TodoScreen({navigation}) {
-  const todo = useSelector(selectTasksTodo);
-  let tasks = transformData(todo);
-  console.log("todo");
-  console.log(tasks);
+  const todo = useSelector(selectTasks);
+  console.log(todo);
+  let tasks = selectTasksTodo(todo.tasks.tasks);
+  console.log(todo.tasks.tasks);
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
