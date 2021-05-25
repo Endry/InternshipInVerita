@@ -52,7 +52,7 @@ function TaskDetailsScreen({route, navigation}) {
         </TouchableHighlight>
         <TouchableHighlight
           underlayColor="#fff"
-          onPress={() => store.dispatch(removeTaskAction(id))}
+          onPress={() => dispatch(removeTaskAction(id))}
           style={styles.delContainer}>
           <Image
             style={styles.del}

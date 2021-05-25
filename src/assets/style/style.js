@@ -1,12 +1,11 @@
-import {
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const colors = {content: '#8bc34a'};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#8bc34a',
+    backgroundColor: colors.content,
   },
   navigation: {
     justifyContent: 'space-between',
@@ -98,6 +97,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderWidth: 1,
     height: Dimensions.get('window').height * 0.3,
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
   },
 });
 

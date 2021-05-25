@@ -1,12 +1,21 @@
 import {combineReducers} from 'redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {persistReducer} from 'redux-persist';
 
-import todosReducer from './features/todoTasks/todosSlice';
-import donesReducer from './features/doneTasks/doneSlice';
+import tasksReducer from './features/tasks/tasksSlice';
+
+const rootPersistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+};
+
+const authPersistConfig = {
+  key: 'tasks',
+  storage: AsyncStorage,
+};
 
 const rootReducer = combineReducers({
-  // Define a top-level state field named `todos`, handled by `todosReducer`
-  todos: todosReducer,
-  dones: donesReducer,
+  tasks: persistReducer(authPersistConfig, tasksReducer),
 });
 
-export default rootReducer;
+export default persistReducer(rootPersistConfig, rootReducer);

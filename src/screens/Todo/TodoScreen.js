@@ -7,6 +7,7 @@ import {
   View,
   TouchableHighlight,
   FlatList,
+  ImageBackground,
 } from 'react-native';
 import {Section} from './../TasksStorage';
 import {useSelector} from 'react-redux';
@@ -16,17 +17,53 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import {createSelector} from 'reselect';
 
+const selectTasksTodo = createSelector(
+  state => state,
+  state => state,
+);
+
+const TasksTodo = createSelector(
+  state => state,
+  state =>
+    state.tasks.array.forEach(element => {
+      element.type === 'todo';
+    }),
+);
+
+const toArray = object => {
+  const array = [];
+  return [...array, object];
+};
+
+const transformData = todo => {
+  let array = [];
+  let task = todo["tasks"];
+  console.log("task");
+  console.log(task["0"]);
+  for (let prop in task) {
+    array.push(task[prop]);
+  }
+  console.log("array");
+  console.log(array);
+  return array;
+};
 
 function TodoScreen({navigation}) {
-  const todo = useSelector(state => state);
+  const todo = useSelector(selectTasksTodo);
+  let tasks = transformData(todo);
+  console.log("todo");
+  console.log(tasks);
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <FlatList
-          data={todo}
-          renderItem={({item}) =>
-            item.type === 'todo' ? (
+      <ImageBackground
+        source={require('./../../assets/images/fon.png')}
+        style={styles.backgroundImage}>
+        <View>
+          <FlatList
+            data={tasks}
+            renderItem={({item}) => (
               <TouchableHighlight
                 underlayColor="#fff"
                 onPress={() =>
@@ -41,18 +78,18 @@ function TodoScreen({navigation}) {
                   <Text style={styles.highlight}> {item.desc} </Text>
                 </Section>
               </TouchableHighlight>
-            ) : null
-          }
-        />
-      </View>
-      <View style={styles.bottomNav}>
-        <TouchableHighlight
-          underlayColor="#fff"
-          onPress={() => navigation.navigate('Create', {type: 'todo'})}
-          style={styles.addContainer}>
-          <Text style={styles.add}>+</Text>
-        </TouchableHighlight>
-      </View>
+            )}
+          />
+        </View>
+        <View style={styles.bottomNav}>
+          <TouchableHighlight
+            underlayColor="#fff"
+            onPress={() => navigation.navigate('Create', {type: 'todo'})}
+            style={styles.addContainer}>
+            <Text style={styles.add}>+</Text>
+          </TouchableHighlight>
+        </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
